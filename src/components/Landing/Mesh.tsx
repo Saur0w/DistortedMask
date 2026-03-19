@@ -20,6 +20,17 @@ export default function Mesh() {
 
     const planeRatio = viewport.width / viewport.height;
 
+    useFrame(() => {
+        if (!materialRef.current) return;
+        const u = materialRef.current.uniforms;
+
+        timeRef.current += 1;
+        u.u_time.value = timeRef.current;
+        u.u_maskVisibility.value = maskVisibility.current.value;
+        u.u_maskPosition.value.set(maskPosition.current.x, maskPosition.current.y);
+        u.uPlaneRatio.value = planeRatio;
+    });
+
     const uniforms = useMemo(() => ({
         uPlaneRatio:       { value: planeRatio },
         u_frontTexture:    { value: frontTexture },
