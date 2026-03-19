@@ -57,7 +57,11 @@ export default function Mesh() {
     }), [planeRatio, frontTexture, backTexture]);
 
     return (
-        <mesh>
+        <mesh
+            onPointerMove={handlePointerMove}
+            onPointerEnter={handlePointerEnter}
+            onPointerLeave={handlePointerLeave}
+        >
             <planeGeometry args={[viewport.width, viewport.height]} />
             <rawShaderMaterial
                 ref={materialRef}
