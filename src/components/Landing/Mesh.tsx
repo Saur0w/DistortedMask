@@ -14,7 +14,7 @@ export default function Mesh() {
     const maskVisibility = useRef({ value: 0 });
     const maskPosition = useRef({ x: 0, y: 0 });
 
-    const [frontTexture, backTexture] = useTexture([
+    const [mask, mainImage] = useTexture([
        "/images/a.jpg",
        "/images/snow.jpg"
     ]);
@@ -40,21 +40,27 @@ export default function Mesh() {
     };
 
     const handlePointerEnter = () => {
-        gsap.to(maskVisibility.current, { value: 1, duration: 0.5 });
+        gsap.to(maskVisibility.current, {
+            value: 1,
+            duration: 0.5
+        });
     };
 
     const handlePointerLeave = () => {
-        gsap.to(maskVisibility.current, { value: 0, duration: 0.5 });
+        gsap.to(maskVisibility.current, {
+            value: 0,
+            duration: 0.5
+        });
     };
 
     const uniforms = useMemo(() => ({
         uPlaneRatio:       { value: planeRatio },
-        u_frontTexture:    { value: frontTexture },
-        u_backTexture:     { value: backTexture },
+        u_frontTexture:    { value: mask },
+        u_backTexture:     { value: mainImage },
         u_time:            { value: 0 },
         u_maskVisibility:  { value: 0 },
         u_maskPosition:    { value: new THREE.Vector2(0, 0) }
-    }), [planeRatio, frontTexture, backTexture]);
+    }), [planeRatio, mask, mainImage]);
 
     return (
         <mesh
@@ -71,6 +77,5 @@ export default function Mesh() {
                 side={THREE.DoubleSide}
             />
         </mesh>
-    )
-
+    );
 }
