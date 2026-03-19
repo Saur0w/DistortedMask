@@ -15,8 +15,8 @@ export default function Mesh() {
     const maskPosition = useRef({ x: 0, y: 0 });
 
     const [frontTexture, backTexture] = useTexture([
-       "/images/look.jpg",
-       "/images/blue.jpg"
+       "/images/a.jpg",
+       "/images/snow.jpg"
     ]);
 
     const planeRatio = viewport.width / viewport.height;
