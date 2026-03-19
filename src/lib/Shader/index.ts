@@ -42,7 +42,6 @@ export const fragmentShader =  `
 
     vec3 color = vec3(0.0);
 
-    // Animated mask UV distortion
     vec2 maskUV = vec2(
       uv.x + sin(u_time * 0.03) * sin(uv.y * 5.0) * 0.15,
       uv.y + cos(u_time * 0.03) * cos(uv.x * 10.0) * 0.15
@@ -57,7 +56,6 @@ export const fragmentShader =  `
     vec3 maskColor = vec3(u_maskVisibility);
     vec3 mask = Rectangle(maskSize, maskUV, maskPosition, maskColor);
 
-    // Front image with subtle wave distortion
     vec2 frontImageUV = vec2(
       (uv.x + sin(u_time * 0.04) * sin(uv.y * 10.0) * 0.03),
       (uv.y + sin(u_time * 0.03) * cos(uv.x * 15.0) * 0.05)
