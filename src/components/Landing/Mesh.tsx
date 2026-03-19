@@ -5,6 +5,7 @@ import {ThreeEvent, useFrame, useThree} from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { vertexShader, fragmentShader} from "@/lib/Shader";
+import gsap from "gsap";
 
 export default function Mesh() {
     const { viewport } = useThree();
@@ -38,7 +39,13 @@ export default function Mesh() {
         };
     };
 
+    const handlePointerEnter = () => {
+        gsap.to(maskVisibility.current, { value: 1, duration: 0.5 });
+    };
 
+    const handlePointerLeave = () => {
+        gsap.to(maskVisibility.current, { value: 0, duration: 0.5 });
+    };
 
     const uniforms = useMemo(() => ({
         uPlaneRatio:       { value: planeRatio },
