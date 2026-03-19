@@ -1,6 +1,6 @@
 "use client";
 
-import {useRef, useState} from "react";
+import {useRef, useState, useMemo } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
@@ -8,7 +8,7 @@ import { vertexShader, fragmentShader} from "@/lib/Shader";
 
 export default function Mesh() {
     const { viewport } = useThree();
-    const materailRef = useRef<THREE.RawShaderMaterial>(null);
+    const materialRef = useRef<THREE.RawShaderMaterial>(null);
     const timeRef = useRef(0);
     const maskVisibility = useRef({ value: 0 });
     const maskPosition = useRef({ x: 0, y: 0 });
@@ -17,5 +17,29 @@ export default function Mesh() {
        "/images/look.jpg",
        "/images/blue.jpg"
     ]);
+
+    const planeRatio = viewport.width / viewport.height;
+
+    const uniforms = useMemo(() => ({
+        uPlaneRatio:       { value: planeRatio },
+        u_frontTexture:    { value: frontTexture },
+        u_backTexture:     { value: backTexture },
+        u_time:            { value: 0 },
+        u_maskVisibility:  { value: 0 },
+        u_maskPosition:    { value: new THREE.Vector2(0, 0) }
+    }), [planeRatio, frontTexture, backTexture]);
+
+    return (
+        <mesh>
+            <planeGeometry args={[viewport.width, viewport.height]} />
+            <rawShaderMaterial
+                ref={materialRef}
+                vertexShader={vertexShader}
+                fragmentShader={fragmentShader}
+                uniforms={uniforms}
+                side={THREE.DoubleSide}
+            />
+        </mesh>
+    )
 
 }
