@@ -1,7 +1,7 @@
 "use client";
 
 import {useRef, useState, useMemo } from "react";
-import { useFrame, useThree } from "@react-three/fiber";
+import {ThreeEvent, useFrame, useThree} from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { vertexShader, fragmentShader} from "@/lib/Shader";
@@ -30,6 +30,15 @@ export default function Mesh() {
         u.u_maskPosition.value.set(maskPosition.current.x, maskPosition.current.y);
         u.uPlaneRatio.value = planeRatio;
     });
+
+    const handlePointerMove = (e: ThreeEvent<PointerEvent>) => {
+        maskPosition.current = {
+            x: e.point.x / viewport.width,
+            y: e.point.y / viewport.height,
+        };
+    };
+
+
 
     const uniforms = useMemo(() => ({
         uPlaneRatio:       { value: planeRatio },
